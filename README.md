@@ -17,9 +17,9 @@ System Dependencies:
 
 Reference Image Library
 - Reference image of images constructed during ice free conditions
-- - Gamma0_VV Mean Image
-- - Gamma0_VH Mean Image
-- - Water Mask Image
+  - Gamma0_VV Mean Image
+  - Gamma0_VH Mean Image
+  - Water Mask Image
 - Water Mask representing where SARRIS classifications will be limited to
 - CSV with the following column names: Orbit, Frame, Lat, Lon, Node
 - CSV to log completed orbit swath acquisitions
