@@ -21,7 +21,7 @@ start_date = start_date.strftime('%Y-%m-%d')
 end_date = end_date.strftime('%Y-%m-%d')
 
 
-with open('/Projects/remote_sensing/reference_images/center_coords.csv', 'r') as csvFile:  #CSV with Orbit Number, center Lat/Lon, and Node Direction
+with open('/center_coords.csv', 'r') as csvFile:  #CSV with Orbit Number, center Lat/Lon, and Node Direction
     reader = csv.reader(csvFile)
     data = list(reader)
 
@@ -56,7 +56,7 @@ for i, image in enumerate(data):
             pass
 
 log = []
-with open('/Projects/remote_sensing/SARRIS_Code/orbit_processing_log.csv', 'r') as csvFile: #CSV File with previously processed images to prevent reprocessing swaths that have been completed
+with open('./orbit_processing_log.csv', 'r') as csvFile: #CSV File with previously processed images to prevent reprocessing swaths that have been completed
     reader = csv.DictReader(csvFile)
     for row in reader:
         log.append(row)
