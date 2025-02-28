@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import requests
 import subprocess
-import sarris_2025_reruns
+import sarris_2025 as sarris
 
 # Folder Locations
 ref_images = '/Projects/remote_sensing/reference_images'
@@ -21,7 +21,7 @@ start_date = start_date.strftime('%Y-%m-%d')
 end_date = end_date.strftime('%Y-%m-%d')
 
 
-with open('/Projects/remote_sensing/reference_images/center_coords.csv', 'r') as csvFile:
+with open('/Projects/remote_sensing/reference_images/center_coords.csv', 'r') as csvFile:  #CSV with Orbit Number, center Lat/Lon, and Node Direction
     reader = csv.reader(csvFile)
     data = list(reader)
 
@@ -32,7 +32,6 @@ frame = []
 for i, image in enumerate(data):
     if i > 0:
         orbit_number = image[0]
-        print(f'Checking Orbit Number: {orbit_number}')
         url = 'https://catalogue.dataspace.copernicus.eu/odata/v1/Products?'
         search = (f"$filter=contains(Name,'S1A_IW_GRD') and ContentDate/Start gt {start_date}T00:00:00.000Z and "\
               f"ContentDate/Start lt {end_date}T23:59:59.999Z and "\
@@ -57,7 +56,7 @@ for i, image in enumerate(data):
             pass
 
 log = []
-with open('/Projects/remote_sensing/SARRIS_Code/orbit_processing_log.csv', 'r') as csvFile:
+with open('/Projects/remote_sensing/SARRIS_Code/orbit_processing_log.csv', 'r') as csvFile: #CSV File with previously processed images to prevent reprocessing swaths that have been completed
     reader = csv.DictReader(csvFile)
     for row in reader:
         log.append(row)
@@ -66,7 +65,7 @@ processed_images = []
 for i in log:
     process_date = datetime.strptime(i['date'], '%Y-%m-%d')
     current_date = datetime.now()
-    if abs(current_date - process_date).days < 6:
+    if abs(current_date - process_date).days < 6: # The minimal repeat image time in the SARRIS Domain
         processed_images.append(i['orbit']) # Completed images in the processing log
 
 
@@ -99,4 +98,4 @@ for individual_orbit in aggregated_orbits:
                             process_xml, 
                             f'-Pfile={raw_s1}', 
                             f'-Poutput={raw_s1[:-5]}_RTC.dim'])
-        sarris_2025_reruns.main(individual_orbit)
+        sarris.main(individual_orbit)
