@@ -12,10 +12,10 @@ Python Dependencies:
 - rasterio
 - subprocess
 
-System Dependencies:
+## System Dependencies:
 - Copernicus SeNtinel APplications (SNAP) gpt command line application
 
-Reference Image Library
+## Reference Image Library
 - Reference image of images constructed during ice free conditions
   - Gamma0_VV Mean Image
   - Gamma0_VH Mean Image
